@@ -18,13 +18,21 @@ const settingsSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    upiPayeeName: {
+      type: String,
+      default: "MAHAKAL GANESH MANDAL",
+    },
+    upiDeepLink: {
+      type: String,
+      default: "",
+    },
     contactNumber: {
       type: String,
       default: "+91 8431776329",
     },
     pandalAddress: {
       type: String,
-      default: "KEB Road, [City]",
+      default: "KEB Road, Old Mailoor, Bidar",
     },
     aartiTimings: {
       morning: { type: String, default: "6:00 AM" },

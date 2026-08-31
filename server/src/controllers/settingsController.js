@@ -8,7 +8,6 @@ exports.getSettings = async (req, res) => {
     let settings = await Settings.findOne();
 
     if (!settings) {
-      // Create default settings
       settings = new Settings();
       await settings.save();
     }
@@ -31,26 +30,24 @@ exports.getSettings = async (req, res) => {
 // @access  Public
 exports.getPublicSettings = async (req, res) => {
   try {
-    let settings = await Settings.findOne().populate("festivalYear");
+    let settings = await Settings.findOne();
 
     if (!settings) {
       settings = new Settings();
       await settings.save();
     }
 
-    // Return only public fields
     const publicSettings = {
       organizationName: settings.organizationName,
       tagline: settings.tagline,
       pandalAddress: settings.pandalAddress,
-      googleMapsLocation: settings.googleMapsLocation,
       contactNumber: settings.contactNumber,
       socialMedia: settings.socialMedia,
       aartiTimings: settings.aartiTimings,
-      festivalDates: settings.festivalDates,
-      isLiveDarshanEnabled: settings.isLiveDarshanEnabled,
-      liveDarshanUrl: settings.liveDarshanUrl,
-      festivalYear: settings.festivalYear,
+      qrCodeUrl: settings.qrCodeUrl,
+      upiId: settings.upiId,
+      upiPayeeName: settings.upiPayeeName,
+      upiDeepLink: settings.upiDeepLink,
     };
 
     res.status(200).json({
@@ -78,12 +75,16 @@ exports.updateSettings = async (req, res) => {
       settings = new Settings();
     }
 
-    // Update settings
     Object.keys(updates).forEach((key) => {
       if (updates[key] !== undefined) {
         settings[key] = updates[key];
       }
     });
+
+    // Generate UPI deep link
+    if (settings.upiId) {
+      settings.upiDeepLink = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "MAHAKAL GANESH MANDAL")}&cu=INR`;
+    }
 
     await settings.save();
 
@@ -96,6 +97,49 @@ exports.updateSettings = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Failed to update settings",
+    });
+  }
+};
+
+// @desc    Update UPI settings
+// @route   PUT /api/settings/upi
+// @access  Private/Admin
+exports.updateUPISettings = async (req, res) => {
+  try {
+    const { upiId, upiPayeeName } = req.body;
+
+    console.log("📝 updateUPISettings called with:", { upiId, upiPayeeName });
+
+    let settings = await Settings.findOne();
+    if (!settings) {
+      settings = new Settings();
+    }
+
+    if (upiId !== undefined) settings.upiId = upiId;
+    if (upiPayeeName !== undefined) settings.upiPayeeName = upiPayeeName;
+
+    // Generate UPI deep link
+    if (settings.upiId) {
+      settings.upiDeepLink = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "MAHAKAL GANESH MANDAL")}&cu=INR`;
+    }
+
+    await settings.save();
+
+    console.log("✅ UPI settings saved:", {
+      upiId: settings.upiId,
+      upiPayeeName: settings.upiPayeeName,
+      upiDeepLink: settings.upiDeepLink,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: settings,
+    });
+  } catch (error) {
+    console.error("Update UPI settings error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update UPI settings",
     });
   }
 };
@@ -150,10 +194,7 @@ exports.uploadQRCode = async (req, res) => {
       settings = new Settings();
     }
 
-    if (!settings.upiSettings) {
-      settings.upiSettings = {};
-    }
-    settings.upiSettings.qrCode = req.file.path || req.file.url;
+    settings.qrCodeUrl = req.file.path || req.file.url;
     await settings.save();
 
     res.status(200).json({

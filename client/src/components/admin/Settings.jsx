@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaUpload, FaQrcode, FaSave, FaEdit } from "react-icons/fa";
+import { FaUpload, FaQrcode, FaSave, FaEdit, FaLink } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../../utils/api";
 import "./Admin.css";
@@ -10,6 +10,8 @@ const Settings = () => {
     tagline: "Ganpati Bappa Morya 🙏",
     qrCodeUrl: "",
     upiId: "",
+    upiPayeeName: "MAHAKAL GANESH MANDAL",
+    upiDeepLink: "",
     contactNumber: "+91 8431776329",
     pandalAddress: "KEB Road, [City]",
     aartiTimings: { morning: "6:00 AM", evening: "7:30 PM" },
@@ -17,7 +19,6 @@ const Settings = () => {
   });
   const [loading, setLoading] = useState(false);
   const [uploadingQR, setUploadingQR] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -58,6 +59,28 @@ const Settings = () => {
       }
     } catch (error) {
       toast.error("Failed to save settings");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUPISave = async () => {
+    setLoading(true);
+    try {
+      const response = await api.put("/settings/upi", {
+        upiId: settings.upiId,
+        upiPayeeName: settings.upiPayeeName,
+      });
+      if (response.data.success) {
+        setSettings(response.data.data);
+        toast.success("UPI settings saved successfully!");
+        setIsEditing(false);
+      }
+    } catch (error) {
+      console.error("UPI save error:", error);
+      toast.error(
+        error.response?.data?.message || "Failed to save UPI settings",
+      );
     } finally {
       setLoading(false);
     }
@@ -107,6 +130,98 @@ const Settings = () => {
         </button>
       </div>
 
+      {/* UPI Payment Link Section */}
+      <div className="settings-section">
+        <h2>
+          <FaLink /> UPI Payment Link
+        </h2>
+        <div className="upi-settings">
+          <div className="form-group">
+            <label>UPI ID</label>
+            <input
+              type="text"
+              name="upiId"
+              value={settings.upiId || ""}
+              onChange={handleChange}
+              placeholder="e.g., mahakalganesh@upi or 9876543210@ybl"
+              disabled={!isEditing}
+            />
+            <small>Your UPI ID for payments</small>
+          </div>
+          <div className="form-group">
+            <label>Payee Name</label>
+            <input
+              type="text"
+              name="upiPayeeName"
+              value={settings.upiPayeeName || "MAHAKAL GANESH MANDAL"}
+              onChange={handleChange}
+              placeholder="Payee name for UPI"
+              disabled={!isEditing}
+            />
+            <small>Name that appears in UPI app</small>
+          </div>
+          {settings.upiId && (
+            <div className="upi-link-preview">
+              <p>Payment Link:</p>
+              <code
+                className="upi-link"
+                style={{
+                  background: "#f5f5f5",
+                  padding: "8px",
+                  borderRadius: "4px",
+                  display: "block",
+                  wordBreak: "break-all",
+                  fontSize: "12px",
+                  color: "#333",
+                }}
+              >
+                upi://pay?pa={settings.upiId}&pn=
+                {encodeURIComponent(
+                  settings.upiPayeeName || "MAHAKAL GANESH MANDAL",
+                )}
+                &cu=INR
+              </code>
+              <button
+                className="btn-primary"
+                onClick={() => {
+                  const link = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "MAHAKAL GANESH MANDAL")}&cu=INR`;
+                  const isMobile = /Android|iPhone|iPad|iPod/i.test(
+                    navigator.userAgent,
+                  );
+                  if (isMobile) {
+                    window.location.href = link;
+                  } else {
+                    navigator.clipboard
+                      .writeText(settings.upiId)
+                      .then(() => {
+                        toast.info(`UPI ID copied: ${settings.upiId}`);
+                      })
+                      .catch(() => {
+                        toast.info(`UPI ID: ${settings.upiId}`);
+                      });
+                  }
+                }}
+                style={{ marginTop: "10px" }}
+              >
+                {/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+                  ? "Test UPI Link"
+                  : "Copy UPI ID"}
+              </button>
+            </div>
+          )}
+          {isEditing && (
+            <button
+              className="btn-primary"
+              onClick={handleUPISave}
+              disabled={loading}
+              style={{ marginTop: "10px" }}
+            >
+              <FaSave /> {loading ? "Saving..." : "Save UPI Settings"}
+            </button>
+          )}
+        </div>
+      </div>
+
       {/* QR Code Upload Section */}
       <div className="settings-section">
         <h2>
@@ -140,7 +255,7 @@ const Settings = () => {
             </label>
             {uploadingQR && <span className="upload-status">Uploading...</span>}
             <div className="form-group">
-              <label>UPI ID</label>
+              <label>UPI ID (for display)</label>
               <input
                 type="text"
                 name="upiId"

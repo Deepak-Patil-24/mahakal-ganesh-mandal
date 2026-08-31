@@ -15,6 +15,8 @@ import {
   FaCheckCircle,
   FaRocket,
   FaBuilding,
+  FaWallet,
+  FaCopy,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../../utils/api";
@@ -25,7 +27,12 @@ const Home = () => {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [photos, setPhotos] = useState([]);
   const [donations, setDonations] = useState([]);
-  const [settings, setSettings] = useState({ qrCodeUrl: "", upiId: "" });
+  const [settings, setSettings] = useState({
+    qrCodeUrl: "",
+    upiId: "",
+    upiPayeeName: "MAHAKAL GANESH MANDAL",
+    upiDeepLink: "",
+  });
   const [totals, setTotals] = useState({
     totalDonations: 0,
     totalExpenses: 0,
@@ -45,6 +52,7 @@ const Home = () => {
   });
   const [qrSubmitting, setQrSubmitting] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [copySuccess, setCopySuccess] = useState(false);
 
   const videoRef = useRef(null);
   const [videoError, setVideoError] = useState(false);
@@ -267,6 +275,32 @@ const Home = () => {
       toast.error(error.response?.data?.message || "Failed to record Chanda");
     } finally {
       setQrSubmitting(false);
+    }
+  };
+
+  const handleUPIPay = () => {
+    if (settings.upiDeepLink) {
+      window.open(settings.upiDeepLink, "_blank");
+    } else if (settings.upiId) {
+      const upiLink = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "MAHAKAL GANESH MANDAL")}&cu=INR`;
+      window.open(upiLink, "_blank");
+    } else {
+      toast.error("UPI ID not configured. Please contact admin.");
+    }
+  };
+
+  const copyUPIId = () => {
+    if (settings.upiId) {
+      navigator.clipboard
+        .writeText(settings.upiId)
+        .then(() => {
+          setCopySuccess(true);
+          toast.success("UPI ID copied to clipboard!");
+          setTimeout(() => setCopySuccess(false), 3000);
+        })
+        .catch(() => {
+          toast.error("Failed to copy UPI ID");
+        });
     }
   };
 
@@ -496,15 +530,15 @@ const Home = () => {
             >
               <div className="instructions-header">
                 <FaQrcode className="instructions-icon" />
-                <h2>Scan and Pay</h2>
+                <h2>Pay with UPI</h2>
               </div>
 
               <div className="instructions-body">
                 <div className="instruction-step">
                   <span className="step-number">1</span>
                   <div>
-                    <h4>Scan the QR Code</h4>
-                    <p>Open your UPI app and scan the QR code below</p>
+                    <h4>Scan QR Code or Click "Pay with UPI"</h4>
+                    <p>Click on QR code or button to open UPI app</p>
                   </div>
                 </div>
 
@@ -528,29 +562,64 @@ const Home = () => {
                   <span className="step-number">4</span>
                   <div>
                     <h4>Record Your Chanda</h4>
-                    <p>
-                      Fill the form below with your details and transaction ID
-                    </p>
+                    <p>Enter the transaction ID below</p>
                   </div>
                 </div>
               </div>
 
               <div className="instruction-qr">
-                <div className="qr-code-small">
+                {/* Clickable QR Code */}
+                <div
+                  className="qr-code-small"
+                  onClick={handleUPIPay}
+                  style={{ cursor: settings.upiId ? "pointer" : "default" }}
+                  title={
+                    settings.upiId
+                      ? "Click to pay via UPI"
+                      : "UPI not configured"
+                  }
+                >
                   {settings.qrCodeUrl ? (
                     <img src={settings.qrCodeUrl} alt="QR Code" />
                   ) : (
                     <div className="qr-placeholder-small">
                       <FaQrcode />
-                      <p>QR Code not configured</p>
+                      <p>No QR Code</p>
                     </div>
                   )}
+                  <div className="qr-overlay-hint">
+                    <span>📱 Tap to Pay</span>
+                  </div>
                 </div>
                 <div className="instruction-upi">
                   <span>UPI ID: </span>
                   <strong>{settings.upiId || "Not configured"}</strong>
                 </div>
               </div>
+
+              {/* UPI Pay Button */}
+              <motion.button
+                className="btn-upi-pay"
+                onClick={handleUPIPay}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.95 }}
+                style={{ width: "100%", marginBottom: "10px" }}
+                disabled={!settings.upiId}
+              >
+                <FaWallet /> Pay with UPI App
+              </motion.button>
+
+              {/* Copy UPI ID Button */}
+              <motion.button
+                className="btn-copy-upi"
+                onClick={copyUPIId}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.95 }}
+                style={{ width: "100%", marginBottom: "10px" }}
+                disabled={!settings.upiId}
+              >
+                <FaCopy /> {copySuccess ? "Copied!" : "Copy UPI ID"}
+              </motion.button>
 
               <div className="modal-actions">
                 <motion.button
@@ -671,7 +740,7 @@ const Home = () => {
         )}
       </AnimatePresence>
 
-      {/* Success Modal - Fixed Print Button */}
+      {/* Success Modal */}
       <AnimatePresence>
         {showSuccessModal && successData && (
           <motion.div
@@ -744,7 +813,6 @@ const Home = () => {
                 >
                   Done
                 </motion.button>
-                {/* FIXED: Print button with visible text */}
                 <motion.button
                   className="btn-print"
                   onClick={() => window.print()}
@@ -759,7 +827,7 @@ const Home = () => {
         )}
       </AnimatePresence>
 
-      {/* Events & Announcements Section */}
+      {/* Events Section */}
       <section className="section events-announcements">
         <div className="container">
           <div className="events-announcements-grid">

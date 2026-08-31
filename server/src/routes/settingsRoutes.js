@@ -6,16 +6,26 @@ const {
   uploadLogo,
   uploadQRCode,
   getPublicSettings,
+  updateUPISettings,
 } = require("../controllers/settingsController");
 const { protect, authorize } = require("../middleware/auth");
 const { uploadSingle } = require("../middleware/upload");
 
-// Public routes
+// ============== PUBLIC ROUTES ==============
 router.get("/public", getPublicSettings);
 
-// Admin routes
+// ============== ADMIN ROUTES ==============
 router.get("/", protect, authorize("admin", "superadmin"), getSettings);
 router.put("/", protect, authorize("admin", "superadmin"), updateSettings);
+
+// UPI Settings route - Make sure this is BEFORE other routes
+router.put(
+  "/upi",
+  protect,
+  authorize("admin", "superadmin"),
+  updateUPISettings,
+);
+
 router.post(
   "/logo",
   protect,
@@ -23,6 +33,7 @@ router.post(
   uploadSingle("logo"),
   uploadLogo,
 );
+
 router.post(
   "/qr-code",
   protect,
@@ -30,5 +41,10 @@ router.post(
   uploadSingle("qrCode"),
   uploadQRCode,
 );
+
+// Test route
+router.get("/test", (req, res) => {
+  res.json({ message: "Settings route is working!" });
+});
 
 module.exports = router;
