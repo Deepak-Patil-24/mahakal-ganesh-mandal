@@ -279,29 +279,66 @@ const Home = () => {
   };
 
   const handleUPIPay = () => {
-    if (settings.upiDeepLink) {
-      window.open(settings.upiDeepLink, "_blank");
-    } else if (settings.upiId) {
-      const upiLink = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "MAHAKAL GANESH MANDAL")}&cu=INR`;
-      window.open(upiLink, "_blank");
-    } else {
+    if (!settings.upiId) {
       toast.error("UPI ID not configured. Please contact admin.");
+      return;
+    }
+
+    const upiLink = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "MAHAKAL GANESH MANDAL")}&cu=INR`;
+
+    // Check if on mobile device
+    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(
+      navigator.userAgent,
+    );
+
+    if (isMobile) {
+      // On mobile - open UPI app
+      window.location.href = upiLink;
+    } else {
+      // On desktop - show UPI ID and QR code
+      toast.info(
+        `📱 Please use your phone to scan the QR code or copy the UPI ID`,
+      );
+      // Copy UPI ID to clipboard
+      navigator.clipboard
+        .writeText(settings.upiId)
+        .then(() => {
+          toast.success(
+            `UPI ID: ${settings.upiId} - Copied! Use it on your phone.`,
+          );
+          // Show QR code modal for desktop users
+          setShowQRInstructions(true);
+        })
+        .catch(() => {
+          toast.info(`UPI ID: ${settings.upiId} - Use this on your phone`);
+          setShowQRInstructions(true);
+        });
     }
   };
 
   const copyUPIId = () => {
-    if (settings.upiId) {
-      navigator.clipboard
-        .writeText(settings.upiId)
-        .then(() => {
-          setCopySuccess(true);
-          toast.success("UPI ID copied to clipboard!");
-          setTimeout(() => setCopySuccess(false), 3000);
-        })
-        .catch(() => {
-          toast.error("Failed to copy UPI ID");
-        });
+    if (!settings.upiId) {
+      toast.error("UPI ID not configured");
+      return;
     }
+
+    navigator.clipboard
+      .writeText(settings.upiId)
+      .then(() => {
+        setCopySuccess(true);
+        toast.success("UPI ID copied to clipboard!");
+        setTimeout(() => setCopySuccess(false), 3000);
+      })
+      .catch(() => {
+        // Fallback for older browsers
+        const textArea = document.createElement("textarea");
+        textArea.value = settings.upiId;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+        toast.success("UPI ID copied!");
+      });
   };
 
   const goToSlide = (index) => {
