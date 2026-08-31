@@ -21,7 +21,7 @@ const Videos = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [viewRecorded, setViewRecorded] = useState({});
   const iframeRef = useRef(null);
-  const playerRef = useRef(null);
+
 
   useEffect(() => {
     fetchVideos();
