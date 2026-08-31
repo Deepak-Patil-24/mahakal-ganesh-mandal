@@ -1,8 +1,6 @@
 import React from "react";
 import {
-  FaHands,
   FaUsers,
-  FaCalendar,
   FaHeart,
   FaTrophy,
   FaShieldAlt,

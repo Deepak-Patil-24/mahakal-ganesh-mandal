@@ -1,17 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  FaChartBar,
-  FaDownload,
-  FaPrint,
-  FaFilePdf,
-  FaCalendarAlt,
-  FaMoneyBill,
-  FaHands,
-  FaDonate,
-  FaUsers,
-  FaEye,
-  FaArrowRight,
-} from "react-icons/fa";
+import { FaPrint } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../../utils/api";
 import "./Reports.css";

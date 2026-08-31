@@ -10,7 +10,6 @@ import {
   FaChartBar,
   FaEnvelope,
   FaInfoCircle,
-  FaMapMarkerAlt,
   FaClock,
   FaPhone,
   FaArrowRight,

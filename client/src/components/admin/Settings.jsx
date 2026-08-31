@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaUpload, FaQrcode, FaSave, FaEdit, FaImage } from "react-icons/fa";
+import { FaUpload, FaQrcode, FaSave, FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../../utils/api";
 import "./Admin.css";

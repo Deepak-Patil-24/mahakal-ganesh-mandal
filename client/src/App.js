@@ -48,8 +48,8 @@ function App() {
   // Show footer only on home page
   const showFooter = location.pathname === "/";
 
-  // Check if current path is admin route
-  const isAdminRoute = location.pathname.startsWith("/admin");
+  // // Check if current path is admin route
+  // const isAdminRoute = location.pathname.startsWith("/admin");
 
   return (
     <div className="app">

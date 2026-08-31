@@ -6,7 +6,6 @@ import {
   FaEye,
   FaEyeSlash,
   FaSearch,
-  FaTimes,
   FaImage,
   FaBullhorn,
 } from "react-icons/fa";

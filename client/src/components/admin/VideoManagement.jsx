@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  FaPlus,
-  FaTrash,
-  FaSearch,
-  FaTimes,
-  FaYoutube,
-  FaVideo,
-  FaEye,
-} from "react-icons/fa";
+import { FaPlus, FaTrash, FaSearch, FaYoutube, FaEye } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../../utils/api";
 import "./Admin.css";

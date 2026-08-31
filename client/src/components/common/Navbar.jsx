@@ -3,8 +3,6 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import {
   FaHome,
-  FaInfoCircle,
-  FaPray,
   FaCalendarAlt,
   FaDonate,
   FaChartBar,
@@ -14,7 +12,6 @@ import {
   FaBullhorn,
   FaUsers,
   FaEnvelope,
-  FaSignInAlt,
   FaUserShield,
   FaSignOutAlt,
   FaHands,
