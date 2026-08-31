@@ -671,7 +671,7 @@ const Home = () => {
         )}
       </AnimatePresence>
 
-      {/* Success Modal */}
+      {/* Success Modal - Fixed Print Button */}
       <AnimatePresence>
         {showSuccessModal && successData && (
           <motion.div
@@ -744,8 +744,9 @@ const Home = () => {
                 >
                   Done
                 </motion.button>
+                {/* FIXED: Print button with visible text */}
                 <motion.button
-                  className="btn-secondary"
+                  className="btn-print"
                   onClick={() => window.print()}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}

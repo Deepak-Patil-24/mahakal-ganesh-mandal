@@ -154,6 +154,12 @@ const AdminDashboard = () => {
       color: "#dc3545",
     },
     {
+      label: "Upload Videos",
+      icon: <FaVideo />,
+      path: "/admin/videos",
+      color: "#9B59B6",
+    },
+    {
       label: "Upload QR Code",
       icon: <FaQrcode />,
       path: "/admin/settings",

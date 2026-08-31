@@ -12,20 +12,11 @@ import {
   FaChartBar,
   FaCog,
   FaQrcode,
-  FaCheckCircle,
   FaClock,
-  FaTimesCircle,
   FaHands,
   FaUserFriends,
-  FaPlus,
-  FaEye,
   FaEdit,
-  FaTrash,
   FaArrowRight,
-  FaHome,
-  FaInfoCircle,
-  FaPray,
-  FaEnvelope,
 } from "react-icons/fa";
 import api from "../../utils/api";
 import "./Admin.css";
@@ -92,11 +83,14 @@ const AdminDashboard = () => {
       const announcementRes = await api.get("/announcements");
       const announcementData = announcementRes.data.data || [];
 
+      // Balance = Total Chanda - Total Expenses (Donations NOT included)
+      const balance = totalChanda - totalExpenses;
+
       setStats({
         totalChanda: totalChanda,
         totalDonations: totalDonations,
         totalExpenses: totalExpenses,
-        balance: totalChanda + totalDonations - totalExpenses,
+        balance: balance,
         chandaCount: chandaData.length,
         donationCount: donationData.length,
         expenseCount: expenseData.length,
@@ -158,6 +152,12 @@ const AdminDashboard = () => {
       icon: <FaImages />,
       path: "/admin/gallery",
       color: "#dc3545",
+    },
+    {
+      label: "Upload Videos",
+      icon: <FaVideo />,
+      path: "/admin/videos",
+      color: "#9B59B6",
     },
     {
       label: "Upload QR Code",
@@ -224,6 +224,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-container">
+      {/* Header */}
       <div className="admin-header">
         <h1 className="section-title">Admin Dashboard</h1>
         <span className="admin-date">
@@ -238,6 +239,7 @@ const AdminDashboard = () => {
 
       {/* Stats Cards */}
       <div className="stats-grid">
+        {/* Total Chanda */}
         <div className="stat-card" style={{ borderTop: "4px solid #E87516" }}>
           <span className="stat-icon">
             <FaHands />
@@ -247,15 +249,8 @@ const AdminDashboard = () => {
           </span>
           <span className="stat-label">Total Chanda</span>
         </div>
-        <div className="stat-card" style={{ borderTop: "4px solid #28a745" }}>
-          <span className="stat-icon">
-            <FaDonate />
-          </span>
-          <span className="stat-value">
-            ₹{stats.totalDonations.toLocaleString()}
-          </span>
-          <span className="stat-label">Online Donations</span>
-        </div>
+
+        {/* Total Expenses */}
         <div className="stat-card" style={{ borderTop: "4px solid #6B1E1E" }}>
           <span className="stat-icon">
             <FaMoneyBill />
@@ -265,6 +260,8 @@ const AdminDashboard = () => {
           </span>
           <span className="stat-label">Total Expenses</span>
         </div>
+
+        {/* Balance = Chanda - Expenses */}
         <div className="stat-card" style={{ borderTop: "4px solid #D4A017" }}>
           <span className="stat-icon">
             <FaWallet />
@@ -272,6 +269,8 @@ const AdminDashboard = () => {
           <span className="stat-value">₹{stats.balance.toLocaleString()}</span>
           <span className="stat-label">Balance</span>
         </div>
+
+        {/* Total Events */}
         <div className="stat-card" style={{ borderTop: "4px solid #17a2b8" }}>
           <span className="stat-icon">
             <FaCalendarAlt />
@@ -279,6 +278,8 @@ const AdminDashboard = () => {
           <span className="stat-value">{stats.eventCount}</span>
           <span className="stat-label">Total Events</span>
         </div>
+
+        {/* Volunteers */}
         <div className="stat-card" style={{ borderTop: "4px solid #6f42c1" }}>
           <span className="stat-icon">
             <FaUsers />
@@ -286,6 +287,8 @@ const AdminDashboard = () => {
           <span className="stat-value">{stats.volunteerCount}</span>
           <span className="stat-label">Volunteers</span>
         </div>
+
+        {/* Announcements */}
         <div className="stat-card" style={{ borderTop: "4px solid #fd7e14" }}>
           <span className="stat-icon">
             <FaBullhorn />
@@ -293,12 +296,25 @@ const AdminDashboard = () => {
           <span className="stat-value">{stats.announcementCount}</span>
           <span className="stat-label">Announcements</span>
         </div>
+
+        {/* Pending Donations */}
         <div className="stat-card" style={{ borderTop: "4px solid #dc3545" }}>
           <span className="stat-icon">
             <FaClock />
           </span>
           <span className="stat-value">{stats.pendingDonations}</span>
           <span className="stat-label">Pending Donations</span>
+        </div>
+
+        {/* Online Donations - Separate card, NOT included in balance */}
+        <div className="stat-card" style={{ borderTop: "4px solid #28a745" }}>
+          <span className="stat-icon">
+            <FaDonate />
+          </span>
+          <span className="stat-value">
+            ₹{stats.totalDonations.toLocaleString()}
+          </span>
+          <span className="stat-label">Online Donations</span>
         </div>
       </div>
 
