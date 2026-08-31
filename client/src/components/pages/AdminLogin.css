@@ -1,0 +1,145 @@
+.admin-login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--maroon) 0%, #3a1111 100%);
+  padding: 20px;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 420px;
+}
+
+.login-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.login-icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.login-header h1 {
+  font-size: 1.8rem;
+  color: var(--maroon);
+  margin-bottom: 4px;
+}
+
+.login-header p {
+  color: var(--charcoal);
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.login-form .form-group {
+  margin-bottom: 20px;
+}
+
+.login-form label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: var(--saffron);
+  box-shadow: 0 0 0 3px rgba(232, 117, 22, 0.1);
+}
+
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--saffron);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.login-btn:hover:not(:disabled) {
+  background: var(--maroon);
+  transform: translateY(-2px);
+}
+
+.login-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #eee;
+}
+
+.login-footer p {
+  color: var(--charcoal);
+  opacity: 0.6;
+  font-size: 0.85rem;
+}
+
+.login-note {
+  margin-top: 4px;
+  font-size: 0.8rem;
+}
+
+/* Demo credentials */
+.login-demo {
+  margin-top: 16px;
+  padding: 12px;
+  background: var(--cream);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--charcoal);
+}
+
+.login-demo strong {
+  color: var(--maroon);
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 24px;
+  }
+
+  .login-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .login-icon {
+    font-size: 3rem;
+  }
+}
