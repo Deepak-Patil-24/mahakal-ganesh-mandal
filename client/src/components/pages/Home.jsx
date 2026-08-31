@@ -634,7 +634,26 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* UPI Pay Button */}
+              {/* ===== ADD DESKTOP NOTE HERE ===== */}
+              {!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) && (
+                <div
+                  className="desktop-note"
+                  style={{
+                    background: "#fff3cd",
+                    padding: "10px 14px",
+                    borderRadius: "8px",
+                    marginBottom: "12px",
+                    fontSize: "0.85rem",
+                    color: "#856404",
+                    textAlign: "center",
+                  }}
+                >
+                  💡 On desktop? Copy the UPI ID and use it on your phone's UPI
+                  app, or scan the QR code with your phone.
+                </div>
+              )}
+
+              {/* UPI Pay Button - Updated text based on device */}
               <motion.button
                 className="btn-upi-pay"
                 onClick={handleUPIPay}
@@ -643,7 +662,10 @@ const Home = () => {
                 style={{ width: "100%", marginBottom: "10px" }}
                 disabled={!settings.upiId}
               >
-                <FaWallet /> Pay with UPI App
+                <FaWallet />
+                {/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+                  ? "Pay with UPI App"
+                  : "Copy UPI ID"}
               </motion.button>
 
               {/* Copy UPI ID Button */}
