@@ -13,6 +13,12 @@ import {
   FaClock,
   FaPhone,
   FaArrowRight,
+  FaHandsHelping,
+  FaInfo,
+  FaBullhorn,
+  FaVideo,
+  FaMapMarkerAlt,
+  FaUsers,
 } from "react-icons/fa";
 import api from "../../utils/api";
 import "./Footer.css";
@@ -45,11 +51,12 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-grid">
+          {/* Brand Column */}
           <div className="footer-brand">
             <h3 className="footer-brand-name">
               MAHAKAL GANESH MANDAL, KEB ROAD
             </h3>
-            <p className="footer-tagline">Ganpati Bappa Morya 🙏</p>
+            <p className="footer-tagline">Ganpati Bappa Morya</p>
             <div className="footer-social">
               {settings.socialMedia?.instagram && (
                 <a
@@ -82,6 +89,7 @@ const Footer = () => {
             </div>
           </div>
 
+          {/* Quick Links */}
           <div className="footer-links">
             <h4>Quick Links</h4>
             <Link to="/">
@@ -107,19 +115,33 @@ const Footer = () => {
             </Link>
           </div>
 
+          {/* Community */}
           <div className="footer-links">
             <h4>Community</h4>
-            <Link to="/volunteers">Volunteers</Link>
-            <Link to="/lost-found">Lost & Found</Link>
-            <Link to="/visitor-info">Visitor Info</Link>
-            <Link to="/announcements">Announcements</Link>
-            <Link to="/memories">Memories</Link>
-            <Link to="/videos">Videos</Link>
+            <Link to="/volunteers">
+              <FaUsers /> Volunteers
+            </Link>
+            <Link to="/visitor-info">
+              <FaInfo /> Visitor Info
+            </Link>
+            <Link to="/announcements">
+              <FaBullhorn /> Announcements
+            </Link>
+            <Link to="/memories">
+              <FaImages /> Memories
+            </Link>
+            <Link to="/videos">
+              <FaVideo /> Videos
+            </Link>
           </div>
 
+          {/* Contact & Address */}
           <div className="footer-contact">
-            <h4>📍 Find Us</h4>
-            <p>{settings.pandalAddress || "KEB Road Old Mailoor, Bidar"}</p>
+            <h4>Find Us</h4>
+            <p>
+              <FaMapMarkerAlt />{" "}
+              {settings.pandalAddress || "KEB Road Old Mailoor, Bidar"}
+            </p>
             <p className="footer-phone">
               <FaPhone /> {settings.contactNumber || "+91 8431776329"}
             </p>
@@ -136,12 +158,13 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* Bottom Bar */}
         <div className="footer-bottom">
           <p>
             © {currentYear} MAHAKAL GANESH MANDAL, KEB Road. All rights
             reserved.
           </p>
-          <p className="footer-credit">🙏 Ganpati Bappa Morya</p>
+          <p className="footer-credit">Ganpati Bappa Morya</p>
         </div>
       </div>
     </footer>

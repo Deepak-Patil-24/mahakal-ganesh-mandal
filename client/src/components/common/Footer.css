@@ -1,6 +1,15 @@
+/* Footer.css */
+
+:root {
+  --maroon: #800000;
+  --gold: #d4af37;
+  --saffron: #f4a460;
+  --transition: 0.3s ease-in-out;
+}
+
 .footer {
   background: var(--maroon);
-  color: white;
+  color: #fff;
   padding: 60px 0 20px;
   margin-top: auto;
 }
@@ -19,141 +28,25 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Brand */
 .footer-brand-name {
   font-family: "Playfair Display", serif;
   font-size: 1.5rem;
   margin-bottom: 8px;
+  letter-spacing: 1px;
 }
 
 .footer-tagline {
   color: var(--gold);
   font-size: 1.1rem;
   margin-bottom: 16px;
+  font-weight: 300;
+  letter-spacing: 2px;
 }
 
 .footer-social {
   display: flex;
-  gap: 12px;
-}
-
-.social-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  color: white;
-  text-decoration: none;
-  font-size: 1.2rem;
-  transition: var(--transition);
-}
-
-.social-link:hover {
-  background: var(--gold);
-  transform: translateY(-3px);
-}
-
-.footer-links h4,
-.footer-contact h4 {
-  font-size: 1rem;
-  margin-bottom: 16px;
-  color: var(--gold);
-}
-
-.footer-links a {
-  display: block;
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-  padding: 6px 0;
-  transition: var(--transition);
-}
-
-.footer-links a:hover {
-  color: white;
-  padding-left: 8px;
-}
-
-.footer-contact p {
-  color: rgba(255, 255, 255, 0.7);
-  padding: 6px 0;
-  line-height: 1.6;
-}
-
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 20px;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.footer-credit {
-  color: var(--gold);
-}
-
-@media (max-width: 992px) {
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-  }
-}
-
-@media (max-width: 768px) {
-  .footer {
-    padding: 40px 0 80px;
-  }
-
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .footer-bottom {
-    flex-direction: column;
-    text-align: center;
-    gap: 8px;
-  }
-}
-
-.footer {
-  background: var(--maroon);
-  color: white;
-  padding: 60px 0 20px;
-  margin-top: auto;
-}
-
-.footer-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.5fr;
-  gap: 40px;
-  padding-bottom: 40px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.footer-brand-name {
-  font-family: "Playfair Display", serif;
-  font-size: 1.5rem;
-  margin-bottom: 8px;
-}
-
-.footer-tagline {
-  color: var(--gold);
-  font-size: 1.1rem;
-  margin-bottom: 16px;
-}
-
-.footer-social {
-  display: flex;
-  gap: 12px;
+  gap: 14px;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -164,109 +57,152 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 50%;
-  color: white;
+  color: #fff;
   text-decoration: none;
   font-size: 1.3rem;
   transition: var(--transition);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .social-link:hover {
   background: var(--gold);
-  transform: translateY(-3px);
+  transform: translateY(-4px) scale(1.05);
   color: var(--maroon);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+  border-color: var(--gold);
 }
 
 .social-placeholder {
   color: rgba(255, 255, 255, 0.5);
   font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 1px;
 }
 
+/* Links */
 .footer-links h4,
 .footer-contact h4 {
   font-size: 1rem;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  position: relative;
+}
+
+.footer-links h4::after,
+.footer-contact h4::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 30px;
+  height: 2px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+
+.footer-links h4:hover::after,
+.footer-contact h4:hover::after {
+  width: 50px;
 }
 
 .footer-links a {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
-  padding: 6px 0;
+  padding: 7px 0;
   transition: var(--transition);
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid transparent;
 }
 
 .footer-links a:hover {
-  color: white;
+  color: #fff;
   padding-left: 8px;
+  border-bottom-color: rgba(212, 175, 55, 0.3);
 }
 
 .footer-links a svg {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--gold);
+  transition: var(--transition);
 }
 
+.footer-links a:hover svg {
+  transform: translateX(4px);
+}
+
+/* Contact */
 .footer-contact p {
-  color: rgba(255, 255, 255, 0.7);
-  padding: 4px 0;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 5px 0;
   line-height: 1.6;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  font-weight: 300;
 }
 
 .footer-contact p svg {
   color: var(--gold);
   flex-shrink: 0;
+  font-size: 1rem;
 }
 
 .footer-phone {
   font-size: 1.05rem;
-  font-weight: 600;
-  color: white !important;
+  font-weight: 500;
+  color: #fff !important;
 }
 
 .footer-timings {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .footer-timings p {
-  padding: 2px 0;
+  padding: 3px 0;
   font-size: 0.9rem;
 }
 
 .footer-timings p:first-child {
   color: var(--gold);
-  font-weight: 600;
+  font-weight: 500;
   font-size: 0.95rem;
+  letter-spacing: 0.5px;
 }
 
 /* Visit Button */
 .footer-visit-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-  padding: 10px 20px;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 12px 24px;
   background: var(--saffron);
-  color: white;
-  border-radius: 8px;
+  color: #fff;
+  border-radius: 30px;
   text-decoration: none;
   font-weight: 600;
   transition: var(--transition);
   font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(244, 164, 96, 0.2);
 }
 
 .footer-visit-btn:hover {
   background: var(--gold);
-  transform: translateX(4px);
+  transform: translateX(6px) scale(1.02);
   color: var(--maroon);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);
 }
 
 .footer-visit-btn svg {
@@ -274,20 +210,24 @@
 }
 
 .footer-visit-btn:hover svg {
-  transform: translateX(4px);
+  transform: translateX(6px);
 }
 
+/* Bottom */
 .footer-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 20px;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.5px;
 }
 
 .footer-credit {
   color: var(--gold);
+  font-weight: 400;
+  letter-spacing: 1px;
 }
 
 /* Responsive */
@@ -305,13 +245,19 @@
 
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 28px;
+    text-align: center;
   }
 
-  .footer-bottom {
-    flex-direction: column;
-    text-align: center;
-    gap: 8px;
+  .footer-links h4::after,
+  .footer-contact h4::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .footer-links h4:hover::after,
+  .footer-contact h4:hover::after {
+    width: 50px;
   }
 
   .footer-social {
@@ -331,6 +277,12 @@
   }
 
   .footer-timings p {
+    text-align: center;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 10px;
     text-align: center;
   }
 }

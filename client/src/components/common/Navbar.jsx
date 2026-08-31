@@ -18,13 +18,16 @@ import {
   FaMoneyBill,
   FaCog,
   FaUserFriends,
+  FaChevronDown,
+  FaBars,
+  FaTimes,
 } from "react-icons/fa";
 import "./Navbar.css";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showAdminDropdown, setShowAdminDropdown] = useState(false);
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -72,9 +75,15 @@ const Navbar = () => {
     setShowAdminDropdown(!showAdminDropdown);
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    if (showAdminDropdown) setShowAdminDropdown(false);
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
+        {/* Brand / Logo */}
         <Link to="/" className="navbar-brand">
           <img
             src="/android-chrome-192x192.png"
@@ -87,8 +96,9 @@ const Navbar = () => {
           </div>
         </Link>
 
+        {/* Desktop Navigation */}
         <div className="navbar-links">
-          {/* Public Links - Always visible */}
+          {/* Public Links - First 6 */}
           {navLinks.slice(0, 6).map((link) => (
             <Link
               key={link.path}
@@ -100,12 +110,21 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {/* Admin Section - Only visible when authenticated */}
+          {/* Admin Section */}
           {isAuthenticated && (
             <div className="nav-admin-section">
-              <button className="nav-admin-btn" onClick={toggleAdminDropdown}>
-                <FaUserShield /> Admin <span className="dropdown-arrow">▼</span>
+              <button
+                className="nav-admin-btn"
+                onClick={toggleAdminDropdown}
+                aria-expanded={showAdminDropdown}
+              >
+                <FaUserShield />
+                <span>Admin</span>
+                <FaChevronDown
+                  className={`dropdown-arrow ${showAdminDropdown ? "open" : ""}`}
+                />
               </button>
+
               {showAdminDropdown && (
                 <div className="nav-admin-dropdown">
                   {adminLinks.map((link) => (
@@ -118,12 +137,14 @@ const Navbar = () => {
                         setIsMobileMenuOpen(false);
                       }}
                     >
-                      {link.icon} {link.label}
+                      {link.icon}
+                      <span>{link.label}</span>
                     </Link>
                   ))}
                   <hr className="dropdown-divider" />
                   <button onClick={handleLogout} className="nav-logout-btn">
-                    <FaSignOutAlt /> Logout
+                    <FaSignOutAlt />
+                    <span>Logout</span>
                   </button>
                 </div>
               )}
@@ -131,13 +152,13 @@ const Navbar = () => {
           )}
         </div>
 
+        {/* Mobile Menu Toggle */}
         <button
           className="mobile-menu-btn"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
         >
-          <span className="hamburger-line"></span>
-          <span className="hamburger-line"></span>
-          <span className="hamburger-line"></span>
+          {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
         </button>
       </div>
 
@@ -145,38 +166,43 @@ const Navbar = () => {
       {isMobileMenuOpen && (
         <div className="mobile-menu">
           {/* Public Links */}
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={`mobile-nav-link ${isActive(link.path) ? "active" : ""}`}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {link.icon} {link.label}
-            </Link>
-          ))}
+          <div className="mobile-nav-section">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`mobile-nav-link ${isActive(link.path) ? "active" : ""}`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.icon}
+                <span>{link.label}</span>
+              </Link>
+            ))}
+          </div>
 
-          {/* Admin Links - Only visible when authenticated */}
+          {/* Admin Links */}
           {isAuthenticated && (
-            <>
-              <hr className="mobile-divider" />
-              <div className="mobile-admin-section">
-                <div className="mobile-admin-header">Admin Panel</div>
-                {adminLinks.map((link) => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    className="mobile-nav-link"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {link.icon} {link.label}
-                  </Link>
-                ))}
-                <button onClick={handleLogout} className="mobile-logout-btn">
-                  <FaSignOutAlt /> Logout
-                </button>
+            <div className="mobile-admin-section">
+              <div className="mobile-divider"></div>
+              <div className="mobile-admin-header">
+                <FaUserShield /> Admin Panel
               </div>
-            </>
+              {adminLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className="mobile-nav-link"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.icon}
+                  <span>{link.label}</span>
+                </Link>
+              ))}
+              <button onClick={handleLogout} className="mobile-logout-btn">
+                <FaSignOutAlt />
+                <span>Logout</span>
+              </button>
+            </div>
           )}
         </div>
       )}

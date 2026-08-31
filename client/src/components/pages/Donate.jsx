@@ -11,6 +11,13 @@ import {
   FaCheckCircle,
   FaExclamationTriangle,
   FaClock,
+  FaHands,
+  FaChartBar,
+  FaFileInvoice,
+  FaHeart,
+  FaEnvelope,
+  FaPhoneAlt,
+  FaInfoCircle,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../../utils/api";
@@ -95,91 +102,6 @@ const Donate = () => {
       "UPI payment is currently under development. Please use QR Code for now.",
     );
     return;
-
-    // The code below is commented out until UPI is ready
-    /*
-    if (!formData.name || !formData.amount || parseFloat(formData.amount) < 1) {
-      toast.error("Please fill in all required fields with valid values");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await api.post("/donations/create-order", {
-        name: formData.name,
-        phone: formData.phone || "",
-        amount: parseFloat(formData.amount),
-        paymentMethod: formData.paymentMethod,
-        isAnonymous: formData.isAnonymous,
-      });
-
-      const { orderId, amount, key, donationId } = response.data.data;
-
-      const options = {
-        key: key,
-        amount: amount,
-        currency: "INR",
-        name: "MAHAKAL GANESH MANDAL",
-        description: `Donation by ${formData.name} - ₹${formData.amount}`,
-        image: "/logo192.png",
-        order_id: orderId,
-        handler: async function (response) {
-          try {
-            const verifyResponse = await api.post("/donations/verify", {
-              donationId: donationId,
-              paymentId: response.razorpay_payment_id,
-              orderId: response.razorpay_order_id,
-              signature: response.razorpay_signature,
-            });
-
-            if (verifyResponse.data.success) {
-              toast.success(
-                `Thank you ${formData.name}! Donation verified! 🙏`
-              );
-              setFormData({
-                name: "",
-                phone: "",
-                amount: "",
-                paymentMethod: "QR Code",
-                isAnonymous: false,
-              });
-              setTimeout(() => {
-                window.location.href = "/transparency";
-              }, 2000);
-            }
-          } catch (error) {
-            toast.error("Payment verification failed. Please contact admin.");
-          }
-        },
-        prefill: {
-          name: formData.name,
-          contact: formData.phone || "",
-        },
-        notes: {
-          donorName: formData.name,
-          phone: formData.phone || "N/A",
-        },
-        theme: {
-          color: "#E87516",
-        },
-        modal: {
-          ondismiss: function () {
-            setLoading(false);
-            toast.info("Payment cancelled");
-          },
-        },
-      };
-
-      const razorpay = new window.Razorpay(options);
-      razorpay.open();
-    } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Payment initialization failed"
-      );
-    } finally {
-      setLoading(false);
-    }
-    */
   };
 
   const handleSubmit = (e) => {
@@ -227,7 +149,9 @@ const Donate = () => {
     <div className="donate-page">
       <div className="container">
         <div className="donate-header">
-          <h1 className="section-title">🙏 Donate Now</h1>
+          <h1 className="section-title">
+            <FaHands className="title-icon" /> Donate Now
+          </h1>
           <p className="section-subtitle">Support Mahakal Ganesh Mandal</p>
         </div>
 
@@ -237,7 +161,9 @@ const Donate = () => {
             <div className="dev-notice">
               <FaClock className="dev-icon" />
               <div className="dev-content">
-                <h4>🔧 UPI Payment Under Development</h4>
+                <h4>
+                  <FaInfoCircle /> UPI Payment Under Development
+                </h4>
                 <p>
                   For now, please use the <strong>QR Code</strong> option to
                   make your donation. UPI payment will be available soon.
@@ -451,7 +377,7 @@ const Donate = () => {
                     className="btn-secondary back-btn"
                     onClick={() => setShowQR(false)}
                   >
-                    ← Back
+                    Back
                   </button>
                 </div>
               </div>
@@ -466,18 +392,34 @@ const Donate = () => {
 
           <div className="donate-sidebar">
             <div className="sidebar-card">
-              <h3>Why Donate?</h3>
+              <h3>
+                <FaHands /> Why Donate?
+              </h3>
               <ul>
-                <li>🙏 Support community celebration</li>
-                <li>📊 100% transparent system</li>
-                <li>📜 Get digital receipt</li>
-                <li>❤️ Contribute to culture</li>
+                <li>
+                  <FaHeart /> Support community celebration
+                </li>
+                <li>
+                  <FaChartBar /> 100% transparent system
+                </li>
+                <li>
+                  <FaFileInvoice /> Get digital receipt
+                </li>
+                <li>
+                  <FaHands /> Contribute to culture
+                </li>
               </ul>
             </div>
             <div className="sidebar-card">
-              <h3>Contact</h3>
-              <p>📞 +91 8431776329</p>
-              <p>✉️ mahakalganeshkeb@gmail.com</p>
+              <h3>
+                <FaPhoneAlt /> Contact
+              </h3>
+              <p>
+                <FaPhoneAlt /> +91 8431776329
+              </p>
+              <p>
+                <FaEnvelope /> mahakalganeshkeb@gmail.com
+              </p>
             </div>
           </div>
         </div>

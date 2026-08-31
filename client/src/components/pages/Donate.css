@@ -9,6 +9,11 @@
   margin-bottom: 40px;
 }
 
+.donate-header .title-icon {
+  color: var(--saffron);
+  margin-right: 8px;
+}
+
 .donate-wrapper {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -335,6 +340,9 @@
   font-size: 1.1rem;
   margin-bottom: 12px;
   font-family: "Playfair Display", serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .sidebar-card ul {
@@ -344,6 +352,9 @@
 }
 
 .sidebar-card ul li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   padding: 8px 0;
   color: var(--charcoal);
   border-bottom: 1px solid #f5f5f5;
@@ -353,9 +364,22 @@
   border-bottom: none;
 }
 
+.sidebar-card ul li svg {
+  color: var(--saffron);
+  flex-shrink: 0;
+}
+
 .sidebar-card p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   color: var(--charcoal);
   padding: 4px 0;
+}
+
+.sidebar-card p svg {
+  color: var(--saffron);
+  flex-shrink: 0;
 }
 
 /* Responsive */
@@ -437,6 +461,9 @@
   color: #856404;
   margin: 0 0 4px 0;
   font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .dev-content p {
