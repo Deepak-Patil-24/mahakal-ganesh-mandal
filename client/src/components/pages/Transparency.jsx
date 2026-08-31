@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
-  FaChartBar,
   FaMoneyBill,
   FaWallet,
-  FaUsers,
   FaHands,
 } from "react-icons/fa";
 import api from "../../utils/api";
