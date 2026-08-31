@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-<<<<<<< HEAD
 import { FaMoneyBill, FaWallet, FaHands, FaChartBar } from "react-icons/fa";
-=======
-import {
-  FaMoneyBill,
-  FaWallet,
-  FaHands,
-} from "react-icons/fa";
->>>>>>> 70d712a42b2b8774d8c53143a4d2614433b1c590
 import api from "../../utils/api";
 import "./Pages.css";
 
