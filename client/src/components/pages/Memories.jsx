@@ -3,8 +3,6 @@ import {
   FaCalendar,
   FaImages,
   FaVideo,
-  FaFolder,
-  FaArrowRight,
   FaPlay,
   FaEye,
 } from "react-icons/fa";
