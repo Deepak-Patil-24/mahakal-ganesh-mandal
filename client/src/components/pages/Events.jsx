@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import {
-  FaCalendar,
   FaClock,
   FaMapMarkerAlt,
   FaTag,
   FaFilter,
   FaSearch,
+  FaCalendar,
+  FaCheck,
+  FaSync,
+  FaBan,
+  FaBell,
 } from "react-icons/fa";
 import api from "../../utils/api";
 import "./Pages.css";
@@ -43,12 +47,12 @@ const Events = () => {
 
   const getStatusIcon = (status) => {
     const icons = {
-      UPCOMING: "🔔",
-      ONGOING: "🔄",
-      COMPLETED: "✅",
-      CANCELLED: "❌",
+      UPCOMING: <FaBell />,
+      ONGOING: <FaSync />,
+      COMPLETED: <FaCheck />,
+      CANCELLED: <FaBan />,
     };
-    return icons[status] || "📌";
+    return icons[status] || <FaCalendar />;
   };
 
   const filteredEvents = events.filter((e) => {
@@ -68,7 +72,9 @@ const Events = () => {
   return (
     <div className="page-container">
       <div className="container">
-        <h1 className="section-title">📅 Events</h1>
+        <h1 className="section-title">
+          <FaCalendar /> Events
+        </h1>
         <p className="section-subtitle">
           Join us in celebrating Ganesh Utsav 2026
         </p>
@@ -95,26 +101,28 @@ const Events = () => {
               className={`filter-btn ${filter === "UPCOMING" ? "active" : ""}`}
               onClick={() => setFilter("UPCOMING")}
             >
-              🔔 Upcoming
+              <FaBell /> Upcoming
             </button>
             <button
               className={`filter-btn ${filter === "ONGOING" ? "active" : ""}`}
               onClick={() => setFilter("ONGOING")}
             >
-              🔄 Ongoing
+              <FaSync /> Ongoing
             </button>
             <button
               className={`filter-btn ${filter === "COMPLETED" ? "active" : ""}`}
               onClick={() => setFilter("COMPLETED")}
             >
-              ✅ Completed
+              <FaCheck /> Completed
             </button>
           </div>
         </div>
 
         {filteredEvents.length === 0 ? (
           <div className="no-events">
-            <div className="no-events-icon">📅</div>
+            <div className="no-events-icon">
+              <FaCalendar size={48} />
+            </div>
             <h3>No events found</h3>
             <p>Check back later for upcoming events</p>
           </div>

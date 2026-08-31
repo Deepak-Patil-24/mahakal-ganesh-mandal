@@ -20,8 +20,7 @@ const Gallery = () => {
   const [caption, setCaption] = useState("");
   const [search, setSearch] = useState("");
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [viewCounts, setViewCounts] = useState({});
-  const { isAuthenticated } = useAuth(); // Check if user is admin
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     fetchPhotos();
@@ -44,10 +43,6 @@ const Gallery = () => {
       const response = await api.get(`/photos/${photoId}/view`);
       if (response.data.success) {
         const newViews = response.data.data.views;
-        setViewCounts((prev) => ({
-          ...prev,
-          [photoId]: newViews,
-        }));
         setPhotos((prevPhotos) =>
           prevPhotos.map((p) =>
             p._id === photoId ? { ...p, views: newViews } : p,
@@ -149,7 +144,9 @@ const Gallery = () => {
   return (
     <div className="page-container">
       <div className="container">
-        <h1 className="section-title">📸 Photo Gallery</h1>
+        <h1 className="section-title">
+          <FaImages /> Photo Gallery
+        </h1>
         <p className="section-subtitle">Memories from Ganesh Utsav</p>
 
         {/* Upload Section - Only for Admin */}

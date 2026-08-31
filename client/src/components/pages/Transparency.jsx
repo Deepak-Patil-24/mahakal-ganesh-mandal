@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  FaChartBar,
-  FaMoneyBill,
-  FaWallet,
-  FaUsers,
-  FaHands,
-} from "react-icons/fa";
+import { FaMoneyBill, FaWallet, FaHands, FaChartBar } from "react-icons/fa";
 import api from "../../utils/api";
 import "./Pages.css";
 
 const Transparency = () => {
-  const [donations, setDonations] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [totals, setTotals] = useState({
     totalDonations: 0,
@@ -31,7 +24,6 @@ const Transparency = () => {
         api.get("/expenses/public"),
       ]);
 
-      setDonations(donationsRes.data.data || []);
       setExpenses(expensesRes.data.data || []);
       setTotals({
         totalDonations: donationsRes.data.totals?.totalDonations || 0,
@@ -55,7 +47,9 @@ const Transparency = () => {
   return (
     <div className="page-container">
       <div className="container">
-        <h1 className="section-title">📊 Financial Transparency</h1>
+        <h1 className="section-title">
+          <FaChartBar /> Financial Transparency
+        </h1>
         <p className="section-subtitle">
           Complete transparency of all donations and expenses
         </p>
@@ -97,7 +91,7 @@ const Transparency = () => {
           </div>
         </div>
 
-        {/* Expenses Table - Only Expenses */}
+        {/* Expenses Table */}
         <div className="data-section">
           <h2>Expenses</h2>
           <div className="data-table">

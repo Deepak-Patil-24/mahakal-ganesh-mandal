@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaYoutube,
   FaCalendar,
@@ -20,8 +20,6 @@ const Videos = () => {
   const [error, setError] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [viewRecorded, setViewRecorded] = useState({});
-  const iframeRef = useRef(null);
-  const playerRef = useRef(null);
 
   useEffect(() => {
     fetchVideos();
@@ -59,7 +57,6 @@ const Videos = () => {
             v._id === videoId ? { ...v, views: response.data.data.views } : v,
           ),
         );
-        // Update selected video views
         if (selectedVideo && selectedVideo._id === videoId) {
           setSelectedVideo((prev) => ({
             ...prev,
@@ -77,14 +74,10 @@ const Videos = () => {
   const handleVideoSelect = async (video) => {
     setSelectedVideo(video);
     setIsPlaying(false);
-
-    // When user selects a video, load it but don't auto-play
-    // View will be counted when user clicks play
   };
 
   const handlePlayClick = async () => {
     if (selectedVideo && !viewRecorded[selectedVideo._id]) {
-      // Record view when user clicks play
       const success = await incrementView(selectedVideo._id);
       if (success) {
         setViewRecorded((prev) => ({
@@ -96,10 +89,6 @@ const Videos = () => {
     } else if (selectedVideo) {
       setIsPlaying(!isPlaying);
     }
-  };
-
-  const handlePauseClick = () => {
-    setIsPlaying(false);
   };
 
   const extractYouTubeId = (url) => {
@@ -163,7 +152,9 @@ const Videos = () => {
   return (
     <div className="page-container">
       <div className="container">
-        <h1 className="section-title">🎥 Videos</h1>
+        <h1 className="section-title">
+          <FaVideo /> Videos
+        </h1>
         <p className="section-subtitle">Watch our Ganesh Utsav celebrations</p>
 
         {/* Search */}
@@ -200,7 +191,6 @@ const Videos = () => {
                 <div className="video-player-wrapper">
                   <div className="video-container">
                     <iframe
-                      ref={iframeRef}
                       src={getEmbedUrl(selectedVideo.url, isPlaying)}
                       title={selectedVideo.title}
                       frameBorder="0"
@@ -208,7 +198,6 @@ const Videos = () => {
                       allowFullScreen
                       className="main-video-iframe"
                     ></iframe>
-                    {/* Custom Play/Pause Overlay */}
                     <div className="video-controls-overlay">
                       <button
                         className={`play-btn-overlay ${isPlaying ? "playing" : ""}`}

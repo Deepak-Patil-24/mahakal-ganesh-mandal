@@ -7,7 +7,6 @@ import {
   FaChartBar,
   FaCalendarAlt,
   FaArrowRight,
-  FaHeart,
   FaClock,
   FaQrcode,
   FaUser,
@@ -16,13 +15,15 @@ import {
   FaCheckCircle,
   FaRocket,
   FaBuilding,
+  FaHands,
+  FaWallet,
+  FaUsers,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../../utils/api";
 import "./Home.css";
 
 const Home = () => {
-  const [festivalData, setFestivalData] = useState(null);
   const [announcements, setAnnouncements] = useState([]);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [photos, setPhotos] = useState([]);
