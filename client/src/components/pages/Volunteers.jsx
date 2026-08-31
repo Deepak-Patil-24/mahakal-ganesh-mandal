@@ -4,7 +4,6 @@ import {
   FaMapMarkerAlt,
   FaBriefcase,
   FaEnvelope,
-  FaUser,
 } from "react-icons/fa";
 import api from "../../utils/api";
 import "./Pages.css";

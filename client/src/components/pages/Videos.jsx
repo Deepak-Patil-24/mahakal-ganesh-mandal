@@ -20,6 +20,11 @@ const Videos = () => {
   const [error, setError] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [viewRecorded, setViewRecorded] = useState({});
+<<<<<<< HEAD
+=======
+  const iframeRef = useRef(null);
+
+>>>>>>> 70d712a42b2b8774d8c53143a4d2614433b1c590
 
   useEffect(() => {
     fetchVideos();
