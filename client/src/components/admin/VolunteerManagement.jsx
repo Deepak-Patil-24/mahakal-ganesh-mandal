@@ -41,6 +41,7 @@ const VolunteerManagement = () => {
     "Security",
     "Cultural Programs",
     "General Assistance",
+    "Associate Member",
   ];
 
   useEffect(() => {

@@ -65,3 +65,186 @@
     font-size: 1.3rem;
   }
 }
+
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  padding: 8px 0;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--charcoal);
+  padding: 4px 0;
+  flex: 1;
+  transition: var(--transition);
+  position: relative;
+}
+
+.bottom-nav-item.active {
+  color: var(--saffron);
+}
+
+.bottom-nav-item.active::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 3px;
+  background: var(--saffron);
+  border-radius: 2px;
+}
+
+.bottom-nav-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.bottom-nav-label {
+  font-size: 0.6rem;
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+/* ===== DONATE BUTTON SPECIAL EFFECTS ===== */
+.bottom-nav-item.donate-btn {
+  position: relative;
+  color: var(--saffron);
+}
+
+.bottom-nav-item.donate-btn .bottom-nav-icon {
+  font-size: 1.8rem;
+  color: var(--saffron);
+  animation: donatePulse 2s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.bottom-nav-item.donate-btn .bottom-nav-label {
+  color: var(--saffron);
+  font-weight: 700;
+}
+
+/* Pulsing ring effect */
+.bottom-nav-item.donate-btn .donate-pulse {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--saffron);
+  opacity: 0;
+  animation: pulseRing 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Glow effect on hover */
+.bottom-nav-item.donate-btn:hover .bottom-nav-icon {
+  transform: scale(1.2) rotate(-10deg);
+  color: var(--maroon);
+}
+
+.bottom-nav-item.donate-btn:hover .bottom-nav-label {
+  color: var(--maroon);
+}
+
+/* Active donate button */
+.bottom-nav-item.donate-btn.active {
+  color: var(--maroon);
+}
+
+.bottom-nav-item.donate-btn.active .bottom-nav-icon {
+  color: var(--maroon);
+  animation: none;
+  transform: scale(1.1);
+}
+
+.bottom-nav-item.donate-btn.active .bottom-nav-label {
+  color: var(--maroon);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes donatePulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+@keyframes pulseRing {
+  0% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(-50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Heartbeat effect for donate icon */
+.bottom-nav-item.donate-btn .bottom-nav-icon {
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.15);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.15);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .mobile-bottom-nav {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .bottom-nav-label {
+    font-size: 0.55rem;
+  }
+
+  .bottom-nav-icon {
+    font-size: 1.3rem;
+  }
+
+  .bottom-nav-item.donate-btn .bottom-nav-icon {
+    font-size: 1.6rem;
+  }
+
+  .bottom-nav-item.donate-btn .donate-pulse {
+    width: 34px;
+    height: 34px;
+    top: -2px;
+  }
+}
