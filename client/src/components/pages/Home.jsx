@@ -15,9 +15,6 @@ import {
   FaCheckCircle,
   FaRocket,
   FaBuilding,
-  FaHands,
-  FaWallet,
-  FaUsers,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../../utils/api";
@@ -196,21 +193,14 @@ const Home = () => {
 
   const fetchHomeData = async () => {
     try {
-      const [
-        activeYearRes,
-        announcementsRes,
-        eventsRes,
-        photosRes,
-        donationsRes,
-      ] = await Promise.all([
-        api.get("/festival-years/active"),
-        api.get("/announcements/public?limit=3"),
-        api.get("/events/upcoming"),
-        api.get("/photos"),
-        api.get("/donations/public"),
-      ]);
+      const [announcementsRes, eventsRes, photosRes, donationsRes] =
+        await Promise.all([
+          api.get("/announcements/public?limit=3"),
+          api.get("/events/upcoming"),
+          api.get("/photos"),
+          api.get("/donations/public"),
+        ]);
 
-      setFestivalData(activeYearRes.data.data);
       setAnnouncements(announcementsRes.data.data || []);
       setUpcomingEvents(eventsRes.data.data || []);
       setPhotos(photosRes.data.data || []);
@@ -428,7 +418,6 @@ const Home = () => {
                 KEB Road, Old Mailoor, Bidar
               </motion.p>
 
-              {/* Hero Stats - with subtle background for readability */}
               <motion.div className="hero-stats" variants={staggerContainer}>
                 {[
                   {
@@ -507,7 +496,7 @@ const Home = () => {
             >
               <div className="instructions-header">
                 <FaQrcode className="instructions-icon" />
-                <h2>Scan & Pay</h2>
+                <h2>Scan and Pay</h2>
               </div>
 
               <div className="instructions-body">
@@ -769,7 +758,7 @@ const Home = () => {
         )}
       </AnimatePresence>
 
-      {/* Events & Announcements Side by Side */}
+      {/* Events & Announcements Section */}
       <section className="section events-announcements">
         <div className="container">
           <div className="events-announcements-grid">
@@ -782,7 +771,9 @@ const Home = () => {
                 viewport={{ once: true }}
                 variants={fadeInUp}
               >
-                <h2 className="section-title-small">Upcoming Events</h2>
+                <h2 className="section-title-small">
+                  <FaCalendarAlt /> Upcoming Events
+                </h2>
                 <p className="section-desc-small">Join our celebration</p>
               </motion.div>
 
@@ -906,7 +897,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Donors */}
+      {/* Donors Section */}
       <section className="section donors">
         <div className="container">
           <motion.div
@@ -916,7 +907,9 @@ const Home = () => {
             viewport={{ once: true }}
             variants={fadeInUp}
           >
-            <h2 className="section-title">Recent Donors</h2>
+            <h2 className="section-title">
+              <FaDonate /> Recent Donors
+            </h2>
             <p className="section-desc">Thank you to our supporters</p>
           </motion.div>
 
@@ -987,7 +980,9 @@ const Home = () => {
             viewport={{ once: true }}
             variants={fadeInUp}
           >
-            <h2 className="section-title">Moments</h2>
+            <h2 className="section-title">
+              <FaImages /> Moments
+            </h2>
           </motion.div>
 
           <div className="slideshow-container">
