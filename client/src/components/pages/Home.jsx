@@ -17,7 +17,6 @@ import {
   FaBuilding,
   FaWallet,
   FaCopy,
-  FaInfoCircle,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../../utils/api";
@@ -54,7 +53,6 @@ const Home = () => {
   const [qrSubmitting, setQrSubmitting] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [copySuccess, setCopySuccess] = useState(false);
-  const [upiError, setUpiError] = useState(false);
 
   const videoRef = useRef(null);
   const [videoError, setVideoError] = useState(false);
@@ -280,16 +278,14 @@ const Home = () => {
     }
   };
 
-  // ===== FIXED: Handle UPI Pay without amount parameter =====
+  // ===== FIXED: Opens UPI app with ONLY UPI ID (NO AMOUNT) =====
   const handleUPIPay = () => {
     if (!settings.upiId) {
       toast.error("UPI ID not configured. Please contact admin.");
       return;
     }
 
-    setUpiError(false);
-
-    // Remove amount from UPI link - let user enter amount manually
+    // ONLY UPI ID - NO AMOUNT parameter
     const upiLink = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "MAHAKAL GANESH MANDAL")}&cu=INR`;
 
     const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(
@@ -300,22 +296,6 @@ const Home = () => {
       try {
         // Open UPI app
         window.location.href = upiLink;
-
-        // Fallback: If UPI app doesn't open, copy UPI ID after 3 seconds
-        setTimeout(() => {
-          if (!document.hidden) {
-            navigator.clipboard
-              .writeText(settings.upiId)
-              .then(() => {
-                toast.info(
-                  "UPI ID copied to clipboard! Open your UPI app manually.",
-                );
-              })
-              .catch(() => {
-                toast.info(`UPI ID: ${settings.upiId}`);
-              });
-          }
-        }, 3000);
       } catch (error) {
         toast.info(`Please use UPI ID: ${settings.upiId}`);
       }
@@ -336,7 +316,27 @@ const Home = () => {
     }
   };
 
-  // ===== FIXED: Copy UPI ID with better error handling =====
+  // ===== FIXED: QR Code click opens UPI with ONLY UPI ID =====
+  const handleQRCodeClick = () => {
+    if (!settings.upiId) {
+      toast.error("UPI ID not configured");
+      return;
+    }
+
+    const upiLink = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "MAHAKAL GANESH MANDAL")}&cu=INR`;
+
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      window.location.href = upiLink;
+    } else {
+      navigator.clipboard
+        .writeText(settings.upiId)
+        .then(() => toast.success("UPI ID copied to clipboard!"))
+        .catch(() => toast.info(`UPI ID: ${settings.upiId}`));
+    }
+  };
+
   const copyUPIId = () => {
     if (!settings.upiId) {
       toast.error("UPI ID not configured");
@@ -351,7 +351,6 @@ const Home = () => {
         setTimeout(() => setCopySuccess(false), 3000);
       })
       .catch(() => {
-        // Fallback for older browsers
         const textArea = document.createElement("textarea");
         textArea.value = settings.upiId;
         document.body.appendChild(textArea);
@@ -570,8 +569,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* QR Instructions Modal - FIXED with UPI Tips */}
-      {/* QR Instructions Modal - Clean Version */}
+      {/* QR Instructions Modal */}
       <AnimatePresence>
         {showQRInstructions && (
           <motion.div
@@ -627,26 +625,15 @@ const Home = () => {
               </div>
 
               <div className="instruction-qr">
-                {/* Clickable QR Code */}
+                {/* Clickable QR Code - FIXED: Uses handleQRCodeClick */}
                 <div
                   className="qr-code-small"
-                  onClick={() => {
-                    if (!settings.upiId) {
-                      toast.error("UPI ID not configured");
-                      return;
-                    }
-                    const upiLink = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "MAHAKAL GANESH MANDAL")}&cu=INR`;
-                    window.location.href = upiLink;
-                    setTimeout(() => {
-                      navigator.clipboard
-                        .writeText(settings.upiId)
-                        .then(() => toast.info("UPI ID copied to clipboard!"))
-                        .catch(() => {});
-                    }, 2000);
-                  }}
+                  onClick={handleQRCodeClick}
                   style={{ cursor: settings.upiId ? "pointer" : "default" }}
                   title={
-                    settings.upiId ? "Tap to pay via UPI" : "UPI not configured"
+                    settings.upiId
+                      ? "Click to pay via UPI"
+                      : "UPI not configured"
                   }
                 >
                   {settings.qrCodeUrl ? (
@@ -658,7 +645,7 @@ const Home = () => {
                     </div>
                   )}
                   <div className="qr-overlay-hint">
-                    <span>Tap to Pay</span>
+                    <span>📱 Tap to Pay</span>
                   </div>
                 </div>
                 <div className="instruction-upi">
@@ -667,27 +654,26 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* Desktop Note */}
+              {/* Desktop Note - Only on desktop */}
               {!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) && (
                 <div
                   className="desktop-note"
                   style={{
-                    background: "#e3f2fd",
+                    background: "#fff3cd",
                     padding: "10px 14px",
                     borderRadius: "8px",
                     marginBottom: "12px",
                     fontSize: "0.85rem",
-                    color: "#0d47a1",
+                    color: "#856404",
                     textAlign: "center",
-                    border: "1px solid #90caf9",
                   }}
                 >
-                  <FaInfoCircle /> On desktop? Copy the UPI ID and use it on
-                  your phone's UPI app, or scan the QR code with your phone.
+                  💡 On desktop? Copy the UPI ID and use it on your phone's UPI
+                  app, or scan the QR code with your phone.
                 </div>
               )}
 
-              {/* UPI Pay Button */}
+              {/* UPI Pay Button - FIXED: Uses handleUPIPay */}
               <motion.button
                 className="btn-upi-pay"
                 onClick={handleUPIPay}
