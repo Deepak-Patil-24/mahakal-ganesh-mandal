@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Mahakal Ganesh Mandal Backend",
+  "description": "Jai Mahakal Ganesh Mandal Backend",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",

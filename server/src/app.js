@@ -227,7 +227,7 @@ app.put("/api/settings/upi", async (req, res) => {
     if (upiPayeeName !== undefined) settings.upiPayeeName = upiPayeeName;
 
     if (settings.upiId) {
-      settings.upiDeepLink = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "MAHAKAL GANESH MANDAL")}&cu=INR`;
+      settings.upiDeepLink = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "Jai Mahakal Ganesh MANDAL")}&cu=INR`;
     }
 
     await settings.save();

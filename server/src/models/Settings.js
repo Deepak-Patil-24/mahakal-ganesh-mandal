@@ -4,7 +4,7 @@ const settingsSchema = new mongoose.Schema(
   {
     organizationName: {
       type: String,
-      default: "MAHAKAL GANESH MANDAL, KEB ROAD",
+      default: "Jai Mahakal Ganesh MANDAL, KEB ROAD",
     },
     tagline: {
       type: String,
@@ -20,7 +20,7 @@ const settingsSchema = new mongoose.Schema(
     },
     upiPayeeName: {
       type: String,
-      default: "MAHAKAL GANESH MANDAL",
+      default: "Jai Mahakal Ganesh MANDAL",
     },
     upiDeepLink: {
       type: String,
