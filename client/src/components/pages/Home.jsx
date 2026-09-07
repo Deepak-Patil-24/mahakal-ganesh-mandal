@@ -466,7 +466,7 @@ const Home = () => {
             <motion.div className="hero-content" variants={containerVariants}>
               <motion.div className="hero-title-wrapper" variants={fadeInUp}>
                 <span className="hero-title-line">
-                  <span className="title-main">Mahakal</span>
+                  <span className="title-main">Jai Mahakal</span>
                 </span>
                 <span className="hero-title-line">
                   <span className="title-accent">Ganesh Mandal</span>
