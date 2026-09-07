@@ -16,14 +16,14 @@ const About = () => {
     <div className="page-container">
       <div className="container">
         <h1 className="section-title">About Us</h1>
-        <p className="section-subtitle">MAHAKAL GANESH MANDAL, KEB ROAD</p>
+        <p className="section-subtitle">Jai Mahakal Ganesh MANDAL, KEB ROAD</p>
 
         <div className="about-content">
           <div className="about-card">
             {/* Hero Section */}
             <div className="about-hero">
               <span className="about-icon">🪔</span>
-              <h2>MAHAKAL GANESH MANDAL</h2>
+              <h2>Jai Mahakal Ganesh MANDAL</h2>
               <p className="about-location">
                 KEB Road Old Mailoor, Bidar, Karnataka 585403
               </p>
@@ -32,7 +32,7 @@ const About = () => {
             {/* About Text */}
             <div className="about-text">
               <p>
-                <strong>Mahakal Ganesh Mandal</strong> is a community-driven
+                <strong>Jai Mahakal Ganesh Mandal</strong> is a community-driven
                 organization dedicated to celebrating the Ganesh Utsav festival
                 with devotion, grandeur, and complete transparency. Established
                 with the vision of bringing the community together, we have been

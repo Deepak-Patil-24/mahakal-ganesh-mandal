@@ -4,9 +4,10 @@ import api from "../../utils/api";
 import "./Pages.css";
 
 const Transparency = () => {
+  const [chandaList, setChandaList] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [totals, setTotals] = useState({
-    totalDonations: 0,
+    totalChanda: 0,
     totalExpenses: 0,
     balance: 0,
     donorCount: 0,
@@ -19,19 +20,18 @@ const Transparency = () => {
 
   const fetchData = async () => {
     try {
-      const [donationsRes, expensesRes] = await Promise.all([
-        api.get("/donations/public"),
+      const [chandaRes, expensesRes] = await Promise.all([
+        api.get("/chanda/public"),
         api.get("/expenses/public"),
       ]);
 
+      setChandaList(chandaRes.data.data || []);
       setExpenses(expensesRes.data.data || []);
       setTotals({
-        totalDonations: donationsRes.data.totals?.totalDonations || 0,
+        totalChanda: chandaRes.data.total || 0,
         totalExpenses: expensesRes.data.total || 0,
-        balance:
-          (donationsRes.data.totals?.totalDonations || 0) -
-          (expensesRes.data.total || 0),
-        donorCount: donationsRes.data.totals?.donorCount || 0,
+        balance: (chandaRes.data.total || 0) - (expensesRes.data.total || 0),
+        donorCount: chandaRes.data.count || 0,
       });
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -51,7 +51,7 @@ const Transparency = () => {
           <FaChartBar /> Financial Transparency
         </h1>
         <p className="section-subtitle">
-          Complete transparency of all donations and expenses
+          Complete transparency of all Chanda and expenses
         </p>
 
         {/* Summary Cards */}
@@ -61,9 +61,9 @@ const Transparency = () => {
             style={{ borderTop: "4px solid #E87516" }}
           >
             <FaHands className="summary-icon" />
-            <h3>Total Donations</h3>
+            <h3>Total Chanda</h3>
             <span className="amount">
-              ₹{totals.totalDonations?.toLocaleString() || "0"}
+              ₹{totals.totalChanda?.toLocaleString() || "0"}
             </span>
             <small>{totals.donorCount || 0} donors</small>
           </div>
@@ -91,9 +91,11 @@ const Transparency = () => {
           </div>
         </div>
 
-        {/* Expenses Table */}
+        {/* Expenses Table - ABOVE Chanda */}
         <div className="data-section">
-          <h2>Expenses</h2>
+          <h2>
+            <FaMoneyBill /> Expenses
+          </h2>
           <div className="data-table">
             <table>
               <thead>
@@ -122,6 +124,49 @@ const Transparency = () => {
                       <td>{expense.name}</td>
                       <td>{expense.category}</td>
                       <td>₹{expense.amount.toLocaleString()}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Chanda Table - BELOW Expenses */}
+        <div className="data-section">
+          <h2>
+            <FaHands /> Chanda List
+          </h2>
+          <div className="data-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Donor Name</th>
+                  <th>Amount</th>
+                  <th>Payment Method</th>
+                </tr>
+              </thead>
+              <tbody>
+                {chandaList.length === 0 ? (
+                  <tr>
+                    <td colSpan="4" className="no-data">
+                      No Chanda entries yet
+                    </td>
+                  </tr>
+                ) : (
+                  chandaList.map((entry) => (
+                    <tr key={entry._id || entry.id}>
+                      <td>{new Date(entry.createdAt).toLocaleDateString()}</td>
+                      <td>{entry.name}</td>
+                      <td>₹{entry.amount.toLocaleString()}</td>
+                      <td>
+                        <span
+                          className={`payment-badge ${entry.paymentMethod?.toLowerCase() || "cash"}`}
+                        >
+                          {entry.paymentMethod || "Cash"}
+                        </span>
+                      </td>
                     </tr>
                   ))
                 )}

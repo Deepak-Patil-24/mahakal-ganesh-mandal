@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  FaCalendar,
-  FaImages,
-  FaVideo,
-  FaPlay,
-  FaEye,
-} from "react-icons/fa";
+import { FaCalendar, FaImages, FaVideo, FaPlay, FaEye } from "react-icons/fa";
 import api from "../../utils/api";
 import "./Memories.css";
 
@@ -91,7 +85,7 @@ const Memories = () => {
         <div className="memories-header">
           <h1 className="section-title">📖 Memories</h1>
           <p className="section-subtitle">
-            Preserving the history of Mahakal Ganesh Mandal
+            Preserving the history of Jai Mahakal Ganesh Mandal
           </p>
         </div>
 

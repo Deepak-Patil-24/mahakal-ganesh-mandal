@@ -244,7 +244,7 @@ const Reports = () => {
         {/* Report Header */}
         <div className="report-header">
           <div className="report-title-section">
-            <h1>MAHAKAL GANESH MANDAL</h1>
+            <h1>Jai Mahakal Ganesh MANDAL</h1>
             <h2>KEB ROAD</h2>
             <h3>GANESH UTSAV {reportData.year}</h3>
             <h4>Final Report</h4>
@@ -506,7 +506,7 @@ const Reports = () => {
         <div className="report-footer">
           <p>
             This report is generated from the financial records maintained by
-            Mahakal Ganesh Mandal, KEB Road.
+            Jai Mahakal Ganesh Mandal, KEB Road.
           </p>
           <p className="report-footer-credit">🙏 Ganpati Bappa Morya</p>
         </div>

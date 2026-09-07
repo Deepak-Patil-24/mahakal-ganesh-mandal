@@ -17,6 +17,7 @@ import {
   FaBuilding,
   FaWallet,
   FaCopy,
+  FaHands,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../../utils/api";
@@ -26,15 +27,15 @@ const Home = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [photos, setPhotos] = useState([]);
-  const [donations, setDonations] = useState([]);
+  const [chandaList, setChandaList] = useState([]);
   const [settings, setSettings] = useState({
     qrCodeUrl: "",
     upiId: "",
-    upiPayeeName: "MAHAKAL GANESH MANDAL",
+    upiPayeeName: "Jai Mahakal Ganesh MANDAL",
     upiDeepLink: "",
   });
   const [totals, setTotals] = useState({
-    totalDonations: 0,
+    totalChanda: 0,
     totalExpenses: 0,
     balance: 0,
     donorCount: 0,
@@ -201,23 +202,23 @@ const Home = () => {
 
   const fetchHomeData = async () => {
     try {
-      const [announcementsRes, eventsRes, photosRes, donationsRes] =
+      const [announcementsRes, eventsRes, photosRes, chandaRes] =
         await Promise.all([
           api.get("/announcements/public?limit=3"),
           api.get("/events/upcoming"),
           api.get("/photos"),
-          api.get("/donations/public"),
+          api.get("/chanda/public"),
         ]);
 
       setAnnouncements(announcementsRes.data.data || []);
       setUpcomingEvents(eventsRes.data.data || []);
       setPhotos(photosRes.data.data || []);
-      setDonations(donationsRes.data.data || []);
+      setChandaList(chandaRes.data.data || []);
       setTotals({
-        totalDonations: donationsRes.data.totals?.totalDonations || 0,
+        totalChanda: chandaRes.data.total || 0,
         totalExpenses: 0,
-        balance: donationsRes.data.totals?.totalDonations || 0,
-        donorCount: donationsRes.data.totals?.donorCount || 0,
+        balance: chandaRes.data.total || 0,
+        donorCount: chandaRes.data.count || 0,
       });
     } catch (error) {
       console.error("Error fetching home data:", error);
@@ -278,29 +279,24 @@ const Home = () => {
     }
   };
 
-  // ===== FIXED: Opens UPI app with ONLY UPI ID (NO AMOUNT) =====
   const handleUPIPay = () => {
     if (!settings.upiId) {
       toast.error("UPI ID not configured. Please contact admin.");
       return;
     }
 
-    // ONLY UPI ID - NO AMOUNT parameter
-    const upiLink = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "MAHAKAL GANESH MANDAL")}&cu=INR`;
+    const upiLink = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "Jai Mahakal Ganesh MANDAL")}&cu=INR`;
 
     const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(
       navigator.userAgent,
     );
 
     if (isMobile) {
-      try {
-        // Open UPI app
-        window.location.href = upiLink;
-      } catch (error) {
-        toast.info(`Please use UPI ID: ${settings.upiId}`);
-      }
+      window.location.href = upiLink;
     } else {
-      // Desktop - Copy UPI ID
+      toast.info(
+        `📱 Please use your phone to scan the QR code or copy the UPI ID`,
+      );
       navigator.clipboard
         .writeText(settings.upiId)
         .then(() => {
@@ -310,30 +306,9 @@ const Home = () => {
           setShowQRInstructions(true);
         })
         .catch(() => {
-          toast.info(`UPI ID: ${settings.upiId}`);
+          toast.info(`UPI ID: ${settings.upiId} - Use this on your phone`);
           setShowQRInstructions(true);
         });
-    }
-  };
-
-  // ===== FIXED: QR Code click opens UPI with ONLY UPI ID =====
-  const handleQRCodeClick = () => {
-    if (!settings.upiId) {
-      toast.error("UPI ID not configured");
-      return;
-    }
-
-    const upiLink = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "MAHAKAL GANESH MANDAL")}&cu=INR`;
-
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-    if (isMobile) {
-      window.location.href = upiLink;
-    } else {
-      navigator.clipboard
-        .writeText(settings.upiId)
-        .then(() => toast.success("UPI ID copied to clipboard!"))
-        .catch(() => toast.info(`UPI ID: ${settings.upiId}`));
     }
   };
 
@@ -426,7 +401,7 @@ const Home = () => {
     );
   }
 
-  const recentDonations = donations.slice(0, 6);
+  const recentChanda = chandaList.slice(0, 6);
 
   const slideImages =
     photos.length > 0
@@ -516,8 +491,8 @@ const Home = () => {
                     label: "Total Balance",
                   },
                   {
-                    value: `₹${totals.totalDonations?.toLocaleString() || "0"}`,
-                    label: "Total Donations",
+                    value: `₹${totals.totalChanda?.toLocaleString() || "0"}`,
+                    label: "Total Chanda",
                   },
                   { value: totals.donorCount || 0, label: "Devotees" },
                 ].map((stat, index) => (
@@ -625,10 +600,9 @@ const Home = () => {
               </div>
 
               <div className="instruction-qr">
-                {/* Clickable QR Code - FIXED: Uses handleQRCodeClick */}
                 <div
                   className="qr-code-small"
-                  onClick={handleQRCodeClick}
+                  onClick={handleUPIPay}
                   style={{ cursor: settings.upiId ? "pointer" : "default" }}
                   title={
                     settings.upiId
@@ -654,7 +628,6 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* Desktop Note - Only on desktop */}
               {!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) && (
                 <div
                   className="desktop-note"
@@ -673,7 +646,6 @@ const Home = () => {
                 </div>
               )}
 
-              {/* UPI Pay Button - FIXED: Uses handleUPIPay */}
               <motion.button
                 className="btn-upi-pay"
                 onClick={handleUPIPay}
@@ -688,7 +660,6 @@ const Home = () => {
                   : "Copy UPI ID"}
               </motion.button>
 
-              {/* Copy UPI ID Button */}
               <motion.button
                 className="btn-copy-upi"
                 onClick={copyUPIId}
@@ -910,7 +881,6 @@ const Home = () => {
       <section className="section events-announcements">
         <div className="container">
           <div className="events-announcements-grid">
-            {/* Events Column */}
             <div className="ea-column">
               <motion.div
                 className="section-header-small"
@@ -988,7 +958,6 @@ const Home = () => {
               </motion.div>
             </div>
 
-            {/* Announcements Column */}
             <div className="ea-column">
               <motion.div
                 className="section-header-small"
@@ -1045,7 +1014,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Donors Section */}
+      {/* Chanda Donors Section - Updated */}
       <section className="section donors">
         <div className="container">
           <motion.div
@@ -1056,18 +1025,18 @@ const Home = () => {
             variants={fadeInUp}
           >
             <h2 className="section-title">
-              <FaDonate /> Recent Donors
+              <FaHands /> Recent Chanda Donors
             </h2>
-            <p className="section-desc">Thank you to our supporters</p>
+            <p className="section-desc">Thank you to our generous supporters</p>
           </motion.div>
 
-          {recentDonations.length === 0 ? (
-            <div className="empty">No donations yet</div>
+          {recentChanda.length === 0 ? (
+            <div className="empty">No Chanda entries yet</div>
           ) : (
             <div className="donors-grid">
-              {recentDonations.map((donation, index) => (
+              {recentChanda.map((entry, index) => (
                 <motion.div
-                  key={donation._id || donation.id}
+                  key={entry._id || index}
                   className="donor-card"
                   initial="hidden"
                   whileInView="visible"
@@ -1077,32 +1046,28 @@ const Home = () => {
                   whileHover={{ y: -4, transition: { duration: 0.2 } }}
                 >
                   <div className="donor-avatar">
-                    {donation.isAnonymous
-                      ? "A"
-                      : donation.donorName.charAt(0).toUpperCase()}
+                    {entry.name.charAt(0).toUpperCase()}
                   </div>
                   <div className="donor-info">
-                    <h4>
-                      {donation.isAnonymous ? "Anonymous" : donation.donorName}
-                    </h4>
+                    <h4>{entry.name}</h4>
                     <span className="donor-amount">
-                      ₹{donation.amount.toLocaleString()}
+                      ₹{entry.amount.toLocaleString()}
                     </span>
                     <span
-                      className={`donor-payment ${donation.paymentMethod?.toLowerCase() || "upi"}`}
+                      className={`donor-payment ${entry.paymentMethod?.toLowerCase() || "cash"}`}
                     >
-                      {donation.paymentMethod || "UPI"}
+                      {entry.paymentMethod || "Cash"}
                     </span>
                   </div>
                   <div className="donor-date">
-                    {new Date(donation.createdAt).toLocaleDateString()}
+                    {new Date(entry.createdAt).toLocaleDateString()}
                   </div>
                 </motion.div>
               ))}
             </div>
           )}
 
-          {donations.length > 6 && (
+          {chandaList.length > 6 && (
             <motion.div
               className="view-all-wrapper"
               initial="hidden"
@@ -1111,7 +1076,7 @@ const Home = () => {
               variants={fadeInUp}
             >
               <Link to="/transparency" className="view-all">
-                View All Donors <FaArrowRight />
+                View All Chanda <FaArrowRight />
               </Link>
             </motion.div>
           )}

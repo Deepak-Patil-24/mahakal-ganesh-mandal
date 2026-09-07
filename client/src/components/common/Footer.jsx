@@ -54,7 +54,7 @@ const Footer = () => {
           {/* Brand Column */}
           <div className="footer-brand">
             <h3 className="footer-brand-name">
-              MAHAKAL GANESH MANDAL, KEB ROAD
+              Jai Mahakal Ganesh MANDAL, KEB ROAD
             </h3>
             <p className="footer-tagline">Ganpati Bappa Morya</p>
             <div className="footer-social">
@@ -161,7 +161,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="footer-bottom">
           <p>
-            © {currentYear} MAHAKAL GANESH MANDAL, KEB Road. All rights
+            © {currentYear} Jai Mahakal Ganesh MANDAL, KEB Road. All rights
             reserved.
           </p>
           <p className="footer-credit">Ganpati Bappa Morya</p>

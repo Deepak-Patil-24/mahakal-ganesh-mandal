@@ -65,6 +65,6 @@ export const COLORS = {
   maroonLight: "#8B2E2E",
 };
 
-export const SITE_NAME = "MAHAKAL GANESH MANDAL, KEB ROAD";
+export const SITE_NAME = "Jai Mahakal Ganesh MANDAL, KEB ROAD";
 export const SITE_TAGLINE = "Ganpati Bappa Morya 🙏";
 export const FESTIVAL_YEAR = "GANESH UTSAV 2026";

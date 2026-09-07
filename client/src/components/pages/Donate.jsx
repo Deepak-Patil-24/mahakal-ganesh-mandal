@@ -152,7 +152,7 @@ const Donate = () => {
           <h1 className="section-title">
             <FaHands className="title-icon" /> Donate Now
           </h1>
-          <p className="section-subtitle">Support Mahakal Ganesh Mandal</p>
+          <p className="section-subtitle">Support Jai Mahakal Ganesh Mandal</p>
         </div>
 
         <div className="donate-wrapper">

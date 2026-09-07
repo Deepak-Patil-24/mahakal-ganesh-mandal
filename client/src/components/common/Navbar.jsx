@@ -87,11 +87,11 @@ const Navbar = () => {
         <Link to="/" className="navbar-brand">
           <img
             src="/android-chrome-192x192.png"
-            alt="Mahakal Ganesh Mandal"
+            alt="Jai Mahakal Ganesh Mandal"
             className="brand-logo"
           />
           <div className="brand-text">
-            <span className="brand-name">Mahakal Ganesh</span>
+            <span className="brand-name">Jai Mahakal Ganesh</span>
             <span className="brand-sub">Mandal, KEB Road</span>
           </div>
         </Link>

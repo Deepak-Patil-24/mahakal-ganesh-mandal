@@ -6,11 +6,11 @@ import "./Admin.css";
 
 const Settings = () => {
   const [settings, setSettings] = useState({
-    organizationName: "MAHAKAL GANESH MANDAL, KEB ROAD",
+    organizationName: "Jai Mahakal Ganesh MANDAL, KEB ROAD",
     tagline: "Ganpati Bappa Morya 🙏",
     qrCodeUrl: "",
     upiId: "",
-    upiPayeeName: "MAHAKAL GANESH MANDAL",
+    upiPayeeName: "Jai Mahakal Ganesh MANDAL",
     upiDeepLink: "",
     contactNumber: "+91 8431776329",
     pandalAddress: "KEB Road, [City]",
@@ -153,7 +153,7 @@ const Settings = () => {
             <input
               type="text"
               name="upiPayeeName"
-              value={settings.upiPayeeName || "MAHAKAL GANESH MANDAL"}
+              value={settings.upiPayeeName || "Jai Mahakal Ganesh MANDAL"}
               onChange={handleChange}
               placeholder="Payee name for UPI"
               disabled={!isEditing}
@@ -177,14 +177,14 @@ const Settings = () => {
               >
                 upi://pay?pa={settings.upiId}&pn=
                 {encodeURIComponent(
-                  settings.upiPayeeName || "MAHAKAL GANESH MANDAL",
+                  settings.upiPayeeName || "Jai Mahakal Ganesh MANDAL",
                 )}
                 &cu=INR
               </code>
               <button
                 className="btn-primary"
                 onClick={() => {
-                  const link = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "MAHAKAL GANESH MANDAL")}&cu=INR`;
+                  const link = `upi://pay?pa=${settings.upiId}&pn=${encodeURIComponent(settings.upiPayeeName || "Jai Mahakal Ganesh MANDAL")}&cu=INR`;
                   const isMobile = /Android|iPhone|iPad|iPod/i.test(
                     navigator.userAgent,
                   );

@@ -8,7 +8,7 @@ const Contact = () => {
       <div className="container">
         <h1 className="section-title">📞 Contact Us</h1>
         <p className="section-subtitle">
-          Get in touch with Mahakal Ganesh Mandal
+          Get in touch with Jai Mahakal Ganesh Mandal
         </p>
 
         <div className="contact-info-grid">

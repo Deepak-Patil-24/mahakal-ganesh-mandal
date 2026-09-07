@@ -37,7 +37,7 @@ const AdminLogin = () => {
           <div className="login-header">
             <div className="login-icon">🪔</div>
             <h1>Admin Login</h1>
-            <p>MAHAKAL GANESH MANDAL</p>
+            <p>Jai Mahakal Ganesh MANDAL</p>
           </div>
 
           <form onSubmit={handleSubmit} className="login-form">
